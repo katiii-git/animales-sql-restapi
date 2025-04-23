@@ -1,5 +1,4 @@
-name: Deploy animales-mysql-api
-
+name: Deploy animales sql api
 on:
   push:
     branches: ["master"]
@@ -12,23 +11,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: echo 'hello world ..'
+      - run: echo 'hello world ...'
       - run: ls -la
       - run: touch .env
       - run: echo 'DEV_DATABASE_URL=${{secrets.MYSQL_CONN}}'  >> .env
       - run: cat .env
- #     - run: npm install
-#      - run: npm install -g sequelize-cli@6.2.0 
-
-#      - run: sequelize db:migrate
-      - run: docker build -t katiamp/animales-mysql-restapi:${{github.sha}} .
+      - run: docker build -t katiamp/animales-sql-restapi:${{github.sha}} .
       - run: docker images
- #     - run: docker run --name api -p 8080:8080 -d adsoft/mysql-restapi:${{github.sha}} 
- #     - run: docker ps
- #     - run: docker exec api ls -la
 
-  #    - run: curl 0.0.0.0:8080/api
-   
+
       - name: docker login
         env:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -36,4 +27,4 @@ jobs:
         run:  docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         
       - name: docker push
-        run:  docker push ${{ secrets.DOCKER_USER}}/mysql-restapi:${{github.sha}}
+        run:  docker push ${{ secrets.DOCKER_USER}}/animales-sql-restapi:${{github.sha}}
